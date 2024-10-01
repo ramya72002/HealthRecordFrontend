@@ -19,7 +19,7 @@ const BoxedRegister = () => {
                 {/* <Logo /> */}
               </div>
               <p className="text-sm text-center text-dark my-3">
-                Your Social Campaigns
+                SignUp To NVision Health Locker
               </p>
               <AuthRegister />
               <div className="flex gap-2 text-base text-ld font-medium mt-6 items-center justify-start justify-center">

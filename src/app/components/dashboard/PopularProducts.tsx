@@ -88,17 +88,16 @@ const PopularProducts = () => {
     <>
       <div className="rounded-lg dark:shadow-dark-md shadow-md bg-white dark:bg-darkgray py-6 px-0 relative w-full break-words">
         <div className="px-6">
-          <h5 className="card-title">Popular Products</h5>
-          <p className="card-subtitle">Total 9k Visitors</p>
+          <h5 className="card-title">Health Records</h5> 
         </div>
         <SimpleBar className="max-h-[450px]">
           <div className="overflow-x-auto">
             <Table hoverable>
               <Table.Head>
-                <Table.HeadCell className="p-6">Products</Table.HeadCell>
-                <Table.HeadCell>Payment</Table.HeadCell>
-                <Table.HeadCell>Status</Table.HeadCell>
-                <Table.HeadCell></Table.HeadCell>
+                <Table.HeadCell className="p-6">Title</Table.HeadCell>
+                <Table.HeadCell>Category</Table.HeadCell>
+                <Table.HeadCell>Date</Table.HeadCell>
+                <Table.HeadCell>Time</Table.HeadCell>
               </Table.Head>
               <Table.Body className="divide-y divide-border dark:divide-darkborder ">
                 {ProductTableData.map((item, index) => (
