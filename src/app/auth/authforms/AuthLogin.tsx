@@ -26,6 +26,7 @@ const AuthLogin = () => {
     try {
       const response = await axios.post("http://127.0.0.1:80/signin", { email });
       if (response.status === 200) {
+        localStorage.setItem("email", email);
         router.push("/dashboard"); // Redirect to the dashboard
       }
     } catch (error) {
