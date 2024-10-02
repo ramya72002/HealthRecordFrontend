@@ -17,20 +17,21 @@ const AuthRegister = () => {
       const response = await axios.post("http://127.0.0.1:80/signup", { name, email });
       if (response.data.success) {
         setIsOtpSent(true);
-        setMessage("OTP sent to your email.");
+        setMessage("OTP sent to your email."); 
       }
     } catch (error) {
-      setMessage("error");
+      setMessage("Error sending OTP.");
     }
     setIsLoading(false);
   };
-
+  
   const handleVerifyOtp = async () => {
     setIsLoading(true);
     try {
       const response = await axios.post("http://127.0.0.1:80/verify-otp", { email, otp });
       if (response.data.success) {
         setMessage("OTP verified successfully!");
+        localStorage.setItem("email", email); // Store email in local storage
       } else {
         setMessage(response.data.message);
       }

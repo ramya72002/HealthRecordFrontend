@@ -6,26 +6,59 @@ import { Icon } from "@iconify/react";
 import SimpleBar from "simplebar-react";
 import axios from "axios";
 
+// Category options
+const categoryOptions = [
+  "Cardiology (Heart Health)",
+  "Neurology (Brain & Nerves)",
+  "Endocrinology (Hormonal Health)",
+  "Dermatology (Skin Health)",
+  "Oncology (Cancer)",
+  "Orthopedics (Bone & Muscle Health)",
+  "Pulmonology (Lung Health)",
+  "Gastroenterology (Digestive Health)",
+  "Nephrology (Kidney Health)",
+  "Urology (Urinary Health)",
+  "Gynecology & Obstetrics (Women’s Health)",
+  "Pediatrics (Child Health)",
+  "Psychiatry & Mental Health",
+  "Ophthalmology (Eye Health)",
+  "ENT (Ear, Nose, Throat)",
+  "Dental Health",
+  "Immunology (Allergies & Immune System)",
+  "Rheumatology (Autoimmune Diseases)",
+  "General Medicine",
+  "Surgery & Procedures",
+];
+
+// Record interface
 interface Record {
   title: string;
   category: string;
-  date: string;
-  time: string;
+  date: string;  // Format: "MM/DD/YYYY"
+  time: string;  // Format: "h:mm:ss A"
   image: string; // Image URL
 }
 
 const PopularProducts = () => {
   const [records, setRecords] = useState<Record[]>([]);
-  const [selectedImage, setSelectedImage] = useState<string | null>(null); // Track selected image
-  const [isModalOpen, setIsModalOpen] = useState(false); // Track modal state
+  const [filteredRecords, setFilteredRecords] = useState<Record[]>([]);
+  const [selectedImage, setSelectedImage] = useState<string | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
-  // Fetch health records for a specific email
+  // Filter states
+  const [filterTitle, setFilterTitle] = useState("");
+  const [filterCategory, setFilterCategory] = useState("");
+  const [filterDate, setFilterDate] = useState(""); // Date in MM/DD/YYYY format
+  const [filterTime, setFilterTime] = useState(""); // Time in h:mm:ss A format
+
+  // Fetch records
   useEffect(() => {
     const fetchRecords = async () => {
       try {
-        const email = "nsriramya7@gmail.com"; // Replace with the actual email to fetch data for
+        const email = localStorage.getItem("email"); // Replace with the actual email to fetch data for
         const response = await axios.get(`http://127.0.0.1:80/getrecords?email=${email}`);
         setRecords(response.data.records);
+        setFilteredRecords(response.data.records);
       } catch (error) {
         console.error("Error fetching records:", error);
       }
@@ -45,7 +78,7 @@ const PopularProducts = () => {
     if (selectedImage) {
       const link = document.createElement("a");
       link.href = selectedImage;
-      link.download = "downloaded-image.jpg"; // Set default name
+      link.download = "downloaded-image.jpg";
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
@@ -58,12 +91,42 @@ const PopularProducts = () => {
     setSelectedImage(null);
   };
 
-  // Table Action Data
-  const tableActionData = [
-    { icon: "solar:add-circle-outline", listtitle: "Add" },
-    { icon: "solar:pen-new-square-broken", listtitle: "Share" },
-    { icon: "solar:trash-bin-minimalistic-outline", listtitle: "Delete" },
-  ];
+  // Filter records based on inputs
+  const handleFilter = () => {
+    let filtered = records;
+
+    if (filterTitle) {
+      filtered = filtered.filter((record) =>
+        record.title.toLowerCase().includes(filterTitle.toLowerCase())
+      );
+    }
+    if (filterCategory) {
+      filtered = filtered.filter((record) => record.category === filterCategory);
+    }
+    
+    // Filtering by date
+    if (filterDate) {
+      const formattedFilterDate = new Date(filterDate).toLocaleDateString('en-US');
+      filtered = filtered.filter((record) => record.date === formattedFilterDate);
+    }
+
+    // Filtering by time
+    if (filterTime) {
+      const formattedFilterTime = new Date(`1970-01-01T${filterTime}`).toLocaleTimeString('en-US');
+      filtered = filtered.filter((record) => record.time === formattedFilterTime);
+    }
+
+    setFilteredRecords(filtered);
+  };
+
+  // Reset filters
+  const handleResetFilters = () => {
+    setFilterTitle("");
+    setFilterCategory("");
+    setFilterDate("");
+    setFilterTime("");
+    setFilteredRecords(records);
+  };
 
   return (
     <>
@@ -71,6 +134,48 @@ const PopularProducts = () => {
         <div className="px-6">
           <h5 className="card-title">Health Records</h5>
         </div>
+
+        {/* Filters */}
+        <div className="flex gap-4 p-4">
+          <input
+            type="text"
+            value={filterTitle}
+            onChange={(e) => setFilterTitle(e.target.value)}
+            placeholder="Filter by Title"
+            className="p-2 border border-gray-300 rounded"
+          />
+          <select
+            value={filterCategory}
+            onChange={(e) => setFilterCategory(e.target.value)}
+            className="p-2 border border-gray-300 rounded"
+          >
+            <option value="">Filter by Category</option>
+            {categoryOptions.map((category) => (
+              <option key={category} value={category}>
+                {category}
+              </option>
+            ))}
+          </select>
+          <input
+            type="date"
+            value={filterDate}
+            onChange={(e) => setFilterDate(e.target.value)}
+            className="p-2 border border-gray-300 rounded"
+          />
+          <input
+            type="time"
+            value={filterTime}
+            onChange={(e) => setFilterTime(e.target.value)}
+            className="p-2 border border-gray-300 rounded"
+          />
+          <button onClick={handleFilter} className="p-2 bg-blue-500 text-white rounded">
+            Filter
+          </button>
+          <button onClick={handleResetFilters} className="p-2 bg-gray-500 text-white rounded">
+            Reset Filters
+          </button>
+        </div>
+
         <SimpleBar className="max-h-[450px]">
           <div className="overflow-x-auto">
             <Table hoverable>
@@ -83,48 +188,30 @@ const PopularProducts = () => {
                 <Table.HeadCell>Actions</Table.HeadCell>
               </Table.Head>
               <Table.Body className="divide-y divide-border dark:divide-darkborder">
-                {records.map((item, index) => (
+                {filteredRecords.map((item, index) => (
                   <Table.Row key={index}>
                     <Table.Cell className="whitespace-nowrap ps-6">
                       <img
-                        src={item.image} // Use the image URL from the record
-                        alt={item.title} // Alt text for the image
-                        className="w-16 h-16 object-cover rounded cursor-pointer" // Make the image clickable
-                        onClick={() => handleImageClick(item.image)} // Click event to open full-screen view
+                        src={item.image}
+                        alt={item.title}
+                        className="w-20 h-20 rounded cursor-pointer"
+                        onClick={() => handleImageClick(item.image)}
                       />
                     </Table.Cell>
-                    <Table.Cell className="whitespace-nowrap ps-6">
-                      <div className="flex gap-3 items-center">
-                        <div className="truncate line-clamp-2 sm:text-wrap max-w-56">
-                          <h6 className="text-sm">{item.title}</h6>
-                        </div>
-                      </div>
+                    <Table.Cell className="whitespace-nowrap font-semibold">
+                      {item.title}
                     </Table.Cell>
-                    <Table.Cell>
-                      <h5 className="text-base text-wrap">{item.category}</h5>
-                    </Table.Cell>
-                    <Table.Cell>
-                      <h5 className="text-base text-wrap">{item.date}</h5>
-                    </Table.Cell>
-                    <Table.Cell>
-                      <h5 className="text-base text-wrap">{item.time}</h5>
-                    </Table.Cell>
+                    <Table.Cell>{item.category}</Table.Cell>
+                    <Table.Cell>{item.date}</Table.Cell>
+                    <Table.Cell>{item.time}</Table.Cell>
                     <Table.Cell>
                       <Dropdown
-                        label=""
-                        dismissOnClick={false}
-                        renderTrigger={() => (
-                          <span className="h-9 w-9 flex justify-center items-center rounded-full hover:bg-lightprimary hover:text-primary cursor-pointer">
-                            <HiOutlineDotsVertical size={22} />
-                          </span>
-                        )}
+                        inline
+                        label={<HiOutlineDotsVertical className="w-5 h-5 text-gray-500" />}
                       >
-                        {tableActionData.map((items, index) => (
-                          <Dropdown.Item key={index} className="flex gap-3">
-                            <Icon icon={`${items.icon}`} height={18} />
-                            <span>{items.listtitle}</span>
-                          </Dropdown.Item>
-                        ))}
+                        <Dropdown.Item onClick={handleDownloadImage}>
+                          Download Image
+                        </Dropdown.Item>
                       </Dropdown>
                     </Table.Cell>
                   </Table.Row>
@@ -133,10 +220,9 @@ const PopularProducts = () => {
             </Table>
           </div>
         </SimpleBar>
-      </div>
+        </div>
 
-      {/* Modal for full-screen image */}
-      <Modal show={isModalOpen} onClose={handleCloseModal} size="5xl">
+        <Modal show={isModalOpen} onClose={handleCloseModal} size="5xl">
         <Modal.Header>
           <h5 className="text-xl font-semibold">Full-Screen Image</h5>
         </Modal.Header>

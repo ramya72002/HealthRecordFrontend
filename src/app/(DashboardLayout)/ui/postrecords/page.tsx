@@ -1,6 +1,8 @@
 'use client';
 import React, { useState, useEffect } from 'react';
 import './postrecords.scss';
+import { useRouter } from 'next/navigation';
+
 
 const categories = [
   'Cardiology (Heart Health)',
@@ -34,6 +36,7 @@ interface Record {
 }
 
 const PostRecords = () => {
+  const router = useRouter();
   const [records, setRecords] = useState<Record[]>([]);
   const [selectedCategory, setSelectedCategory] = useState('');
   const [title, setTitle] = useState('');
@@ -72,11 +75,12 @@ const PostRecords = () => {
       const base64Image = await getBase64(image);
 
       const recordData = {
-        email: 'nsriramya7@gmail.com', // Replace with actual email
+        email:localStorage.getItem("email"), // Replace with actual email
         title: title.trim(),
         category: selectedCategory,
         date: new Date().toLocaleDateString(),
-        time: new Date().toLocaleTimeString(),
+        time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false }),
+
         image: base64Image,
       };
 
@@ -90,8 +94,7 @@ const PostRecords = () => {
 
       const result = await response.json();
       if (result.success) {
-        console.log('Record submitted successfully:', result.message);
-        fetchRecords(); // Fetch updated records after submission
+        router.push('/dashboard')
       } else {
         console.error('Error submitting record:', result.error);
       }
@@ -99,22 +102,7 @@ const PostRecords = () => {
       console.error('Error uploading image:', error);
     }
   };
-
-  // Fetch records from the backend
-  const fetchRecords = async () => {
-    try {
-      const response = await fetch('/getrecords');
-      const data = await response.json();
-      setRecords(data);
-    } catch (error) {
-      console.error('Error fetching records:', error);
-    }
-  };
-
-  // Fetch records when the component mounts
-  useEffect(() => {
-    fetchRecords();
-  }, []);
+ 
 
   return (
     <div className="postrecords-container">
@@ -172,26 +160,7 @@ const PostRecords = () => {
           </form>
         </div>
       )}
-
-      {/* Display the list of records */}
-      <div className="records-list">
-        <h2>List of Health Records</h2>
-        {records.length === 0 ? (
-          <p>No records found.</p>
-        ) : (
-          <ul>
-            {records.map((record, index) => (
-              <li key={index}>
-                <strong>{record.title}</strong> - {record.category}
-                <br />
-                <em>Date: {record.date}, Time: {record.time}</em>
-                <br />
-                <img src={record.image} alt={record.title} width="100" />
-              </li>
-            ))}
-          </ul>
-        )}
-      </div>
+ 
     </div>
   );
 };
