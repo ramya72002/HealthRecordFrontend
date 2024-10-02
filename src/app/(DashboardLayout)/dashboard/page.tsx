@@ -1,6 +1,6 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { Badge, Dropdown, Progress, Table } from "flowbite-react";
+import { Badge, Dropdown, Progress, Table, Modal, Button } from "flowbite-react";
 import { HiOutlineDotsVertical } from "react-icons/hi";
 import { Icon } from "@iconify/react";
 import SimpleBar from "simplebar-react";
@@ -16,6 +16,8 @@ interface Record {
 
 const PopularProducts = () => {
   const [records, setRecords] = useState<Record[]>([]);
+  const [selectedImage, setSelectedImage] = useState<string | null>(null); // Track selected image
+  const [isModalOpen, setIsModalOpen] = useState(false); // Track modal state
 
   // Fetch health records for a specific email
   useEffect(() => {
@@ -32,10 +34,34 @@ const PopularProducts = () => {
     fetchRecords();
   }, []);
 
+  // Handle Image Click to Open Modal
+  const handleImageClick = (image: string) => {
+    setSelectedImage(image);
+    setIsModalOpen(true);
+  };
+
+  // Handle Image Download
+  const handleDownloadImage = () => {
+    if (selectedImage) {
+      const link = document.createElement("a");
+      link.href = selectedImage;
+      link.download = "downloaded-image.jpg"; // Set default name
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    }
+  };
+
+  // Close the Modal
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+    setSelectedImage(null);
+  };
+
   // Table Action Data
   const tableActionData = [
     { icon: "solar:add-circle-outline", listtitle: "Add" },
-    { icon: "solar:pen-new-square-broken", listtitle: "Edit" },
+    { icon: "solar:pen-new-square-broken", listtitle: "Share" },
     { icon: "solar:trash-bin-minimalistic-outline", listtitle: "Delete" },
   ];
 
@@ -63,12 +89,13 @@ const PopularProducts = () => {
                       <img
                         src={item.image} // Use the image URL from the record
                         alt={item.title} // Alt text for the image
-                        className="w-16 h-16 object-cover rounded" // Adjust width, height, and other styles as needed
+                        className="w-16 h-16 object-cover rounded cursor-pointer" // Make the image clickable
+                        onClick={() => handleImageClick(item.image)} // Click event to open full-screen view
                       />
                     </Table.Cell>
                     <Table.Cell className="whitespace-nowrap ps-6">
                       <div className="flex gap-3 items-center">
-                        <div className="truncat line-clamp-2 sm:text-wrap max-w-56">
+                        <div className="truncate line-clamp-2 sm:text-wrap max-w-56">
                           <h6 className="text-sm">{item.title}</h6>
                         </div>
                       </div>
@@ -107,6 +134,28 @@ const PopularProducts = () => {
           </div>
         </SimpleBar>
       </div>
+
+      {/* Modal for full-screen image */}
+      <Modal show={isModalOpen} onClose={handleCloseModal} size="5xl">
+        <Modal.Header>
+          <h5 className="text-xl font-semibold">Full-Screen Image</h5>
+        </Modal.Header>
+        <Modal.Body>
+          {selectedImage && (
+            <div className="flex justify-center">
+              <img src={selectedImage} alt="Full Screen" className="max-w-full max-h-screen" />
+            </div>
+          )}
+        </Modal.Body>
+        <Modal.Footer>
+          <Button color="success" onClick={handleDownloadImage}>
+            Download Image
+          </Button>
+          <Button color="gray" onClick={handleCloseModal}>
+            Close
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </>
   );
 };
