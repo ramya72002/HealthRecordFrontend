@@ -42,24 +42,24 @@ const SidebarContent: MenuItem[] = [
         id: uniqueId(),
         url: "/ui/postrecords",
       },
-      {
-        name: "Table",
-        icon: "solar:bedside-table-3-linear",
-        id: uniqueId(),
-        url: "/ui/table",
-      },
-      {
-        name: "Form",
-        icon: "solar:password-minimalistic-outline",
-        id: uniqueId(),
-        url: "/ui/form",
-      },
-      {
-        name: "Shadow",
-        icon: "solar:airbuds-case-charge-outline",
-        id: uniqueId(),
-        url: "/ui/shadow",
-      },
+      // {
+      //   name: "menu1",
+      //   icon: "solar:bedside-table-3-linear",
+      //   id: uniqueId(),
+      //   url: "/ui/table",
+      // },
+      // {
+      //   name: "menu2",
+      //   icon: "solar:password-minimalistic-outline",
+      //   id: uniqueId(),
+      //   url: "/ui/form",
+      // },
+      // {
+      //   name: "menu3",
+      //   icon: "solar:airbuds-case-charge-outline",
+      //   id: uniqueId(),
+      //   url: "/ui/shadow",
+      // },
     ],
   },
   {
@@ -79,23 +79,23 @@ const SidebarContent: MenuItem[] = [
       },
     ],
   },
-  {
-    heading: "Extra",
-    children: [
-      {
-        name: "Icons",
-        icon: "solar:smile-circle-outline",
-        id: uniqueId(),
-        url: "/icons/solar",
-      },
-      {
-        name: "Sample Page",
-        icon: "solar:notes-minimalistic-outline",
-        id: uniqueId(),
-        url: "/sample-page",
-      },
-    ],
-  },
+  // {
+  //   heading: "Extra",
+  //   children: [
+  //     {
+  //       name: "Icons",
+  //       icon: "solar:smile-circle-outline",
+  //       id: uniqueId(),
+  //       url: "/icons/solar",
+  //     },
+  //     {
+  //       name: "Sample Page",
+  //       icon: "solar:notes-minimalistic-outline",
+  //       id: uniqueId(),
+  //       url: "/sample-page",
+  //     },
+  //   ],
+  // },
 ];
 
 export default SidebarContent;
