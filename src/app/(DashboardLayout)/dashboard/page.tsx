@@ -2,7 +2,6 @@
 import React, { useEffect, useState } from "react";
 import { Badge, Dropdown, Progress, Table, Modal, Button } from "flowbite-react";
 import { HiOutlineDotsVertical } from "react-icons/hi";
-import { Icon } from "@iconify/react";
 import SimpleBar from "simplebar-react";
 import axios from "axios";
 
@@ -34,8 +33,8 @@ const categoryOptions = [
 interface Record {
   title: string;
   category: string;
-  date: string;  // Format: "MM/DD/YYYY"
-  time: string;  // Format: "h:mm:ss A"
+  date: string; // Format: "MM/DD/YYYY"
+  time: string; // Format: "HH:mm"
   image: string; // Image URL
 }
 
@@ -49,7 +48,7 @@ const PopularProducts = () => {
   const [filterTitle, setFilterTitle] = useState("");
   const [filterCategory, setFilterCategory] = useState("");
   const [filterDate, setFilterDate] = useState(""); // Date in MM/DD/YYYY format
-  const [filterTime, setFilterTime] = useState(""); // Time in h:mm:ss A format
+  const [filterTime, setFilterTime] = useState(""); // Time in HH:mm format
 
   // Fetch records
   useEffect(() => {
@@ -95,27 +94,31 @@ const PopularProducts = () => {
   const handleFilter = () => {
     let filtered = records;
 
+    // Filter by Title
     if (filterTitle) {
       filtered = filtered.filter((record) =>
         record.title.toLowerCase().includes(filterTitle.toLowerCase())
       );
     }
+
+    // Filter by Category
     if (filterCategory) {
       filtered = filtered.filter((record) => record.category === filterCategory);
     }
-    
-    // Filtering by date
+
+    // Filter by Date
     if (filterDate) {
       const formattedFilterDate = new Date(filterDate).toLocaleDateString('en-US');
       filtered = filtered.filter((record) => record.date === formattedFilterDate);
     }
 
-    // Filtering by time
+    // Filter by Time
     if (filterTime) {
-      const formattedFilterTime = new Date(`1970-01-01T${filterTime}`).toLocaleTimeString('en-US');
-      filtered = filtered.filter((record) => record.time === formattedFilterTime);
+      // Ensure that you're checking against the time string
+      filtered = filtered.filter((record) => record.time === filterTime);
     }
 
+    // Update filtered records
     setFilteredRecords(filtered);
   };
 
@@ -220,28 +223,27 @@ const PopularProducts = () => {
             </Table>
           </div>
         </SimpleBar>
-        </div>
 
-        <Modal show={isModalOpen} onClose={handleCloseModal} size="5xl">
-        <Modal.Header>
-          <h5 className="text-xl font-semibold">Full-Screen Image</h5>
-        </Modal.Header>
-        <Modal.Body>
-          {selectedImage && (
-            <div className="flex justify-center">
-              <img src={selectedImage} alt="Full Screen" className="max-w-full max-h-screen" />
-            </div>
-          )}
-        </Modal.Body>
-        <Modal.Footer>
-          <Button color="success" onClick={handleDownloadImage}>
-            Download Image
-          </Button>
-          <Button color="gray" onClick={handleCloseModal}>
-            Close
-          </Button>
-        </Modal.Footer>
-      </Modal>
+        {/* Modal for Image Preview */}
+        <Modal
+          show={isModalOpen}
+          onClose={handleCloseModal}
+          size="lg"
+        >
+          <Modal.Header>Image Preview</Modal.Header>
+          <Modal.Body>
+            {selectedImage && (
+              <img src={selectedImage} alt="Preview" className="w-full h-auto" />
+            )}
+          </Modal.Body>
+          <Modal.Footer>
+            <Button onClick={handleDownloadImage}>Download</Button>
+            <Button color="gray" onClick={handleCloseModal}>
+              Close
+            </Button>
+          </Modal.Footer>
+        </Modal>
+      </div>
     </>
   );
 };
