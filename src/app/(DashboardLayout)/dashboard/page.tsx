@@ -223,29 +223,31 @@ const PopularProducts = () => {
             </Table>
           </div>
         </SimpleBar>
-
-        {/* Modal for Image Preview */}
-        <Modal
-          show={isModalOpen}
-          onClose={handleCloseModal}
-          size="lg"
-        >
-          <Modal.Header>Image Preview</Modal.Header>
-          <Modal.Body>
-            {selectedImage && (
-              <img src={selectedImage} alt="Preview" className="w-full h-auto" />
-            )}
-          </Modal.Body>
-          <Modal.Footer>
-            <Button onClick={handleDownloadImage}>Download</Button>
-            <Button color="gray" onClick={handleCloseModal}>
-              Close
-            </Button>
-          </Modal.Footer>
-        </Modal>
       </div>
+        {/* Modal for Image Preview */}
+        <Modal show={isModalOpen} onClose={handleCloseModal} size="5xl">
+        <Modal.Header>
+          <h5 className="text-xl font-semibold">Full-Screen Image</h5>
+        </Modal.Header>
+        <Modal.Body>
+          {selectedImage && (
+            <div className="flex justify-center">
+              <img src={selectedImage} alt="Full Screen" className="max-w-full max-h-screen" />
+            </div>
+          )}
+        </Modal.Body>
+        <Modal.Footer>
+          <Button color="success" onClick={handleDownloadImage}>
+            Download Image
+          </Button>
+          <Button color="gray" onClick={handleCloseModal}>
+            Close
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </>
   );
 };
+     
 
 export default PopularProducts;
