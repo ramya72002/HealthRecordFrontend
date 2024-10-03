@@ -14,7 +14,7 @@ const AuthRegister = () => {
   const handleSignup = async () => {
     setIsLoading(true);
     try {
-      const response = await axios.post("http://127.0.0.1:80/signup", { name, email });
+      const response = await axios.post("https://vercel.com/ramyas-projects-4cb2348e/health-project-backend-url/signup", { name, email });
       if (response.data.success) {
         setIsOtpSent(true);
         setMessage("OTP sent to your email."); 
@@ -28,7 +28,7 @@ const AuthRegister = () => {
   const handleVerifyOtp = async () => {
     setIsLoading(true);
     try {
-      const response = await axios.post("http://127.0.0.1:80/verify-otp", { email, otp });
+      const response = await axios.post("https://vercel.com/ramyas-projects-4cb2348e/health-project-backend-url/verify-otp", { email, otp });
       if (response.data.success) {
         setMessage("OTP verified successfully!");
         localStorage.setItem("email", email); // Store email in local storage
