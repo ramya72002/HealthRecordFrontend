@@ -2,8 +2,9 @@
 import { Button, Label, TextInput } from "flowbite-react";
 import React, { useState } from "react";
 import axios from "axios";
-
+import { useRouter } from "next/navigation";
 const AuthRegister = () => {
+  const router=useRouter()
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [otp, setOtp] = useState("");
@@ -32,6 +33,7 @@ const AuthRegister = () => {
       if (response.data.success) {
         setMessage("OTP verified successfully!");
         localStorage.setItem("email", email); // Store email in local storage
+        router.push('/auth/login')
       } else {
         setMessage(response.data.message);
       }
@@ -107,7 +109,7 @@ const AuthRegister = () => {
             onClick={handleVerifyOtp}
             disabled={isLoading}
           >
-            {isLoading ? "Verifying OTP..." : "Otp verified Sucessfully Please Sign in"}
+            {isLoading ? "Verifying OTP..." : "Sign in"}
           </Button>
         )}
 
