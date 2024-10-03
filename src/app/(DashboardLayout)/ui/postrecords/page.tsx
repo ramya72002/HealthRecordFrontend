@@ -84,7 +84,7 @@ const PostRecords = () => {
         image: base64Image,
       };
 
-      const response = await fetch('https://vercel.com/ramyas-projects-4cb2348e/health-project-backend-url/postrecord', {
+      const response = await fetch('https://health-project-backend-url.vercel.app/postrecord', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

@@ -24,7 +24,7 @@ const AuthLogin = () => {
     if (e) e.preventDefault(); // Prevent default form submission if called from the form
     setIsLoading(true);
     try {
-      const response = await axios.post("https://vercel.com/ramyas-projects-4cb2348e/health-project-backend-url/signin", { email });
+      const response = await axios.post("https://health-project-backend-url.vercel.app/signin", { email });
       if (response.status === 200) {
         localStorage.setItem("email", email);
         router.push("/dashboard"); // Redirect to the dashboard
