@@ -43,12 +43,40 @@ const Home = () => {
     router.push("/add-medications"); // Navigate to Add Medications page
   };
 
+  // Handle tab navigation
+  const handleTabClick = (route: string) => {
+    router.push(route);
+  };
+
   return (
     <div className="flex flex-col items-center justify-start min-h-screen bg-gray-100 p-4">
+      {/* Tabs */}
+      <div className="w-full max-w-md bg-white rounded-lg shadow-lg p-4 mb-4">
+        <div className="flex justify-around">
+          <button
+            className="text-blue-600 font-semibold hover:text-blue-800"
+            onClick={() => handleTabClick("/ui/uploadehr")}
+          >
+            Upload EHR
+          </button>
+          <button
+            className="text-blue-600 font-semibold hover:text-blue-800"
+            onClick={() => handleTabClick("/ui/getehr")}
+          >
+            Get EHR
+          </button>
+          <button
+            className="text-blue-600 font-semibold hover:text-blue-800"
+            onClick={() => handleTabClick("/ui/sendehr")}
+          >
+            Send EHR
+          </button>
+        </div>
+      </div>
+
       {/* Container */}
-      <div className="w-full max-w-md bg-white rounded-lg shadow-lg p-6 mt-10">
-         
-      <div className="flex justify-center">
+      <div className="w-full max-w-md bg-white rounded-lg shadow-lg p-6">
+        <div className="flex justify-center">
           <Image
             src="/images/upload.png" // Path to your image in the public folder
             alt="Upload"
@@ -92,7 +120,6 @@ const Home = () => {
           </>
         )}
       </div>
- 
     </div>
   );
 };
