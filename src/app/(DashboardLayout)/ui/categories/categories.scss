@@ -1,0 +1,101 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: #f7f9fc;
+  padding: 2rem;
+  border-radius: 20px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  max-width: 500px;
+  margin: 2rem auto;
+}
+
+.header {
+  font-size: 2rem;
+  font-weight: bold;
+  color: #4a90e2;
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+
+.input {
+  width: 100%;
+  padding: 0.8rem;
+  margin-bottom: 1.2rem;
+  border: 2px solid #d1e4f6;
+  border-radius: 10px;
+  font-size: 1rem;
+  transition: border 0.3s ease;
+
+  &:focus {
+    border-color: #4a90e2;
+    outline: none;
+  }
+}
+
+.pickerContainer, .dateContainer {
+  width: 100%;
+  margin-bottom: 1.2rem;
+}
+
+.label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+  color: #333;
+}
+
+.picker, .dateInput {
+  width: 100%;
+  padding: 0.8rem;
+  border: 2px solid #d1e4f6;
+  border-radius: 10px;
+  font-size: 1rem;
+  transition: border 0.3s ease;
+
+  &:focus {
+    border-color: #4a90e2;
+    outline: none;
+  }
+}
+
+.imageContainer {
+  margin: 1.5rem 0;
+  text-align: center;
+}
+
+.imageText {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #4a4a4a;
+  margin-bottom: 0.5rem;
+}
+
+.image {
+  max-width: 100%;
+  height: auto;
+  border-radius: 15px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.button {
+  background-color: #4a90e2;
+  color: #fff;
+  padding: 0.8rem 2rem;
+  border: none;
+  border-radius: 12px;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+
+  &:hover {
+    background-color: #357ab8;
+  }
+
+  &:disabled {
+    background-color: #a5c8e8;
+    cursor: not-allowed;
+  }
+}

@@ -1,0 +1,175 @@
+.container {
+  padding: 24px;
+  background-color: #f4f4f4;
+  min-height: 100vh;
+}
+
+.header {
+  font-size: 28px;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+.filterContainer {
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  position: relative;
+  z-index: 1;
+}
+
+.searchBox {
+  flex: 1;
+  background-color: #fff;
+  border-radius: 8px;
+  padding: 10px;
+  font-size: 16px;
+  color: #333;
+  border: 1px solid #ccc;
+}
+
+.sortButton {
+  margin-left: 10px;
+  padding: 10px;
+  background-color: #007bff;
+  border-radius: 8px;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+}
+
+.sortMenu {
+  position: absolute;
+  top: 50px;
+  right: 10px;
+  background-color: #fff;
+  border-radius: 8px;
+  padding: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  z-index: 999;
+}
+
+.sortOption {
+  font-size: 16px;
+  color: #007bff;
+  padding: 10px;
+  cursor: pointer;
+  border: none;
+  background: none;
+  width: 100%;
+  text-align: left;
+}
+
+.recordContainer {
+  display: flex;
+  background-color: #fff;
+  padding: 16px;
+  margin-bottom: 10px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  position: relative;
+}
+
+.image {
+  width: 100px;
+  height: 100px;
+  border-radius: 8px;
+  margin-right: 16px;
+}
+
+.detailsContainer {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.title {
+  font-size: 18px;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 8px;
+}
+
+.category {
+  font-size: 14px;
+  color: #007bff;
+  margin-bottom: 8px;
+}
+
+.date {
+  font-size: 12px;
+  color: #777;
+}
+
+.menuButton {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 24px;
+  color: #333;
+}
+
+.contextMenu {
+  position: absolute;
+  top: 40px;
+  right: 10px;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  z-index: 999;
+}
+
+.menuOption {
+  padding: 10px;
+  font-size: 16px;
+  color: #007bff;
+  background: none;
+  border: none;
+  cursor: pointer;
+  width: 100%;
+  text-align: left;
+}
+
+.editInput {
+  background-color: #f9f9f9;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 8px;
+  margin-bottom: 8px;
+  font-size: 16px;
+}
+
+.dateContainer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.saveButton {
+  margin-left: 10px;
+  padding: 5px 15px;
+  background-color: #28a745;
+  border-radius: 8px;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+}
+
+.loadingContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  font-size: 18px;
+  color: #007bff;
+}
+
+.recordsList {
+  display: flex;
+  flex-direction: column;
+}
