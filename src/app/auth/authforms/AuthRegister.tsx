@@ -7,6 +7,7 @@ const AuthRegister = () => {
   const router=useRouter()
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [otp, setOtp] = useState("");
   const [isOtpSent, setIsOtpSent] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -15,10 +16,9 @@ const AuthRegister = () => {
   const handleSignup = async () => {
     setIsLoading(true);
     try {
-      const response = await axios.post("https://health-project-backend-url.vercel.app/signup", { name, email });
+      const response = await axios.post("https://health-project-backend-url.vercel.app/register", { name, email,password });
       if (response.data.success) {
-        setIsOtpSent(true);
-        setMessage("OTP sent to your email."); 
+        router.push('/auth/login')
       }
     } catch (error) {
       setMessage("Error sending OTP.");
@@ -76,6 +76,21 @@ const AuthRegister = () => {
           />
         </div>
 
+        <div className="mb-4">
+          <div className="mb-2 block">
+            <Label htmlFor="password" value="Password" />
+          </div>
+          <TextInput
+            id="password"
+            type="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            sizing="md"
+            className="form-control"
+            disabled={isOtpSent} // Disable if OTP is sent
+          />
+        </div>
+
         {isOtpSent ? (
           <div className="mb-4">
             <div className="mb-2 block">
@@ -100,7 +115,7 @@ const AuthRegister = () => {
             onClick={handleSignup}
             disabled={isLoading}
           >
-            {isLoading ? "Sending OTP..." : "Verify Email"}
+            {isLoading ? "Creating Account" : "Verify Email"}
           </Button>
         ) : (
           <Button

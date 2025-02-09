@@ -10,6 +10,13 @@ const config: Config = {
     // Flowbite content
     flowbite.content(),
   ],
+    "compilerOptions": {
+      "target": "es2015",
+      "lib": ["dom", "es2015"],
+      "downlevelIteration": true
+    },
+  
+  
   theme: {
     extend: {
       boxShadow: {

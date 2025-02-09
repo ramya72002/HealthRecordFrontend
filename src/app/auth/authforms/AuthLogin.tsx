@@ -7,6 +7,7 @@ import axios from "axios";
 
 const AuthLogin = () => {
   const [email, setEmail] = useState("");
+  const [Password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
@@ -24,9 +25,10 @@ const AuthLogin = () => {
     if (e) e.preventDefault(); // Prevent default form submission if called from the form
     setIsLoading(true);
     try {
-      const response = await axios.post("https://health-project-backend-url.vercel.app/signin", { email });
+      const response = await axios.post("https://health-project-backend-url.vercel.app/login", { email,password:Password });
       if (response.status === 200) {
-        localStorage.setItem("email", email);
+        const userDetails=JSON.stringify(response.data);
+        localStorage.setItem("userDetails", userDetails);
         router.push("/dashboard"); // Redirect to the dashboard
       }
     } catch (error) {
@@ -47,6 +49,20 @@ const AuthLogin = () => {
             type="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
+            sizing="md"
+            className="form-control"
+            required
+          />
+        </div>
+        <div className="mb-4">
+          <div className="mb-2 block">
+            <Label htmlFor="Password" value="Password" />
+          </div>
+          <TextInput
+            id="Password"
+            type="Password"
+            value={Password}
+            onChange={(e) => setPassword(e.target.value)}
             sizing="md"
             className="form-control"
             required

@@ -1,0 +1,149 @@
+.container {
+  padding: 20px;
+  background-color: #f9f9f9;
+  min-height: 900vh;
+}
+
+.header {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 20px;
+  text-align: center;
+  color: #007BFF;
+}
+
+.calendar {
+  margin-bottom: 20px;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.markedDate {
+  background-color: #ffcccc;
+  border-radius: 50%;
+}
+
+.loadingContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: #f9f9f9;
+}
+
+.loader {
+  font-size: 18px;
+  color: #007BFF;
+}
+
+.errorContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: #f9f9f9;
+}
+
+.errorText {
+  font-size: 16px;
+  color: red;
+}
+
+.footerContainer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 10px;
+  background-color: white;
+  box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.modalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modalContent {
+  background-color: white;
+  padding: 20px;
+  border-radius: 8px;
+  width: 90%;
+  max-width: 500px;
+  max-height: 80vh;
+  overflow-y: auto;
+}
+
+.modalTitle {
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+.modalText {
+  font-size: 16px;
+  margin-bottom: 5px;
+}
+
+.medicationContainer {
+  margin-bottom: 20px;
+}
+
+.medicationHeader {
+  margin-bottom: 10px;
+}
+
+.table {
+  width: 100%;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.tableHeader {
+  display: flex;
+  background-color: #f0f0f0;
+  padding: 10px;
+  border-bottom: 1px solid #ddd;
+}
+
+.tableHeaderText {
+  flex: 1;
+  font-weight: bold;
+  text-align: center;
+}
+
+.tableRow {
+  display: flex;
+  padding: 10px;
+  border-bottom: 1px solid #ddd;
+}
+
+.tableCell {
+  flex: 1;
+  text-align: center;
+}
+
+.closeButton {
+  margin-top: 20px;
+  padding: 10px 20px;
+  background-color: #007BFF;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.closeButton:hover {
+  background-color: #005bb5;
+}

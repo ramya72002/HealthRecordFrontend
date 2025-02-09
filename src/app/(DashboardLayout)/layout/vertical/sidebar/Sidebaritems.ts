@@ -42,6 +42,31 @@ const SidebarContent: MenuItem[] = [
         id: uniqueId(),
         url: "/ui/postrecords",
       },
+      {
+        name: "Medications",
+        icon: "solar:medicine-square-outline",
+        id: uniqueId(),
+        children: [  // Submenu items for Medications
+          {
+            name: "Add Medication",
+            icon: "solar:calendar-outline",
+            id: uniqueId(),
+            url: "/ui/addmedications",
+          },
+          {
+            name: "View Medication",
+            icon: "solar:calendar-outline",
+            id: uniqueId(),
+            url: "/ui/viewmedications",
+          },
+          {
+            name: "Calendar View",
+            icon: "solar:calendar-outline",
+            id: uniqueId(),
+            url: "/ui/calendarmedications",
+          },
+        ]
+      },
       // {
       //   name: "menu1",
       //   icon: "solar:bedside-table-3-linear",
