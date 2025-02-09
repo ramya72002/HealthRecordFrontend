@@ -44,7 +44,7 @@ const SidebarContent: MenuItem[] = [
       },
       {
         name: "Medications",
-        icon: "solar:medicine-square-outline",
+        icon: "solar:calendar-outline",
         id: uniqueId(),
         children: [  // Submenu items for Medications
           {

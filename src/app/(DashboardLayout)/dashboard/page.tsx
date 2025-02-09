@@ -48,7 +48,15 @@ const Home = () => {
       {/* Container */}
       <div className="w-full max-w-md bg-white rounded-lg shadow-lg p-6 mt-10">
          
-
+      <div className="flex justify-center">
+          <Image
+            src="/images/upload.png" // Path to your image in the public folder
+            alt="Upload"
+            width={100}
+            height={100}
+            className="rounded-full border-2 border-gray-300"
+          />
+        </div>
         {/* Text */}
         <p className="text-sm text-gray-700 text-center mt-4 leading-relaxed">
           Share your user ID with your doctor to upload your records from them.
