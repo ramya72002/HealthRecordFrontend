@@ -1,6 +1,6 @@
 'use client'
 import React, { useEffect } from "react";
-import { useRouter, usePathname } from "next/navigation"; // Import useRouter and usePathname
+import { useRouter, usePathname } from "next/navigation";
 import { Inter } from "next/font/google";
 import 'simplebar-react/dist/simplebar.min.css';
 import "./css/globals.css";
@@ -14,15 +14,15 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const router = useRouter(); // Get the router object
-  const pathname = usePathname(); // Get the current path
+  const router = useRouter();
+  const pathname = usePathname();
 
-  // Redirect from "/" to "/login"
   useEffect(() => {
-    if (pathname === "/") {
+    const userDetails = localStorage.getItem('userDetails');
+    if (!userDetails && pathname === "/") {
       router.push("/auth/login");
     }
-  }, []);
+  }, []); // Dependency added to monitor path changes
 
   return (
     <html lang="en">

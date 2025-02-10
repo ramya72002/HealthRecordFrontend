@@ -34,7 +34,7 @@ interface UserDetails {
 
 const Medications: React.FC = () => {
   const router = useRouter();
- const [userDetails, setUserDetails] = useState<UserDetails | null>(null);
+  const [userDetails, setUserDetails] = useState<UserDetails | null>(null);
   const [medicationName, setMedicationName] = useState<string>('');
   const [frequency, setFrequency] = useState<string>('Every day');
   const [count, setCount] = useState<string>('');
@@ -110,7 +110,7 @@ const Medications: React.FC = () => {
       );
       if (response.data.success) {
         alert('Medication added successfully!');
-        router.push('/calendarview');
+        router.push('/ui/calendarmedications');
       } else {
         alert('Failed to add medication. Please try again.');
       }
@@ -129,6 +129,17 @@ const Medications: React.FC = () => {
     setSelectedDates((prevDates) =>
       prevDates.includes(day) ? prevDates.filter((date) => date !== day) : [...prevDates, day]
     );
+  };
+
+  const handleTimeChange = (index: number, newTime: string) => {
+    const updatedSchedule = [...schedule];
+    updatedSchedule[index].time = newTime;
+    setSchedule(updatedSchedule);
+  };
+
+  const handleDeleteRow = (index: number) => {
+    const updatedSchedule = schedule.filter((_, i) => i !== index);
+    setSchedule(updatedSchedule);
   };
 
   return (
@@ -153,7 +164,6 @@ const Medications: React.FC = () => {
       <button className="w-full p-2 bg-blue-500 text-white rounded mb-4" onClick={() => setModalVisible(true)}>
         {frequency}
       </button>
-     
 
       {modalVisible && (
         <div className="fixed inset-0 bg-gray-800 bg-opacity-50 flex justify-center items-center">
@@ -162,7 +172,7 @@ const Medications: React.FC = () => {
             {['Every day', 'Every x days', 'Day of the week', 'Day of the month'].map((freq) => (
               <button
                 key={freq}
-                className="block w-full text-left p-2 border-b"
+                className="block w-full text-left p-2 border-b hover:bg-blue-100"
                 onClick={() => handleSelectFrequency(freq)}
               >
                 {freq}
@@ -180,7 +190,7 @@ const Medications: React.FC = () => {
           {['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'].map((day) => (
             <button
               key={day}
-              className={`p-2 border rounded ${selectedDays[day as keyof SelectedDays] ? 'bg-green-300' : 'bg-gray-200'}`}
+              className={`p-2 border rounded ${selectedDays[day as keyof SelectedDays] ? 'bg-green-300' : 'bg-gray-200'} hover:bg-blue-100`}
               onClick={() => setSelectedDays((prev) => ({ ...prev, [day]: !prev[day as keyof SelectedDays] }))}
             >
               {day}
@@ -189,20 +199,19 @@ const Medications: React.FC = () => {
         </div>
       )}
 
-{frequency === 'Day of the month' && (
-  <div className="grid grid-cols-7 gap-2 mb-4">
-    {Array.from({ length: 31 }, (_, num) => (
-      <button
-        key={num + 1}
-        className={`p-2 border rounded ${selectedDates.includes(num + 1) ? 'bg-green-300' : 'bg-gray-200'}`}
-        onClick={() => handleSelectDate(num + 1)}
-      >
-        {num + 1}
-      </button>
-    ))}
-  </div>
-)}
-
+      {frequency === 'Day of the month' && (
+        <div className="grid grid-cols-7 gap-2 mb-4">
+          {Array.from({ length: 31 }, (_, num) => (
+            <button
+              key={num + 1}
+              className={`p-2 border rounded ${selectedDates.includes(num + 1) ? 'bg-green-300' : 'bg-gray-200'} hover:bg-blue-100`}
+              onClick={() => handleSelectDate(num + 1)}
+            >
+              {num + 1}
+            </button>
+          ))}
+        </div>
+      )}
 
       {frequency === 'Every x days' && (
         <input
@@ -213,14 +222,52 @@ const Medications: React.FC = () => {
           onChange={(e) => setCount(e.target.value)}
         />
       )}
- <input
+
+      <input
         type="date"
         className="w-full p-2 border rounded mb-4"
         value={endDate}
         onChange={(e) => setEndDate(e.target.value)}
         placeholder='End Date'
       />
-      <button className="w-full p-2 bg-green-500 text-white rounded" onClick={handleAddMedication}>
+
+      <div className="mb-4">
+        <h3 className="text-lg font-bold mb-2">Schedule</h3>
+        <table className="w-full border-collapse">
+          <thead>
+            <tr>
+              <th className="border p-2">Time</th>
+              <th className="border p-2">Dosage</th>
+              <th className="border p-2">Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            {schedule.map((entry, index) => (
+              <tr key={index}>
+                <td className="border p-2">
+                  <input
+                    type="time"
+                    value={entry.time}
+                    onChange={(e) => handleTimeChange(index, e.target.value)}
+                    className="w-full p-1 border rounded"
+                  />
+                </td>
+                <td className="border p-2">{entry.dosage}</td>
+                <td className="border p-2">
+                  <button
+                    className="p-1 bg-red-500 text-white rounded hover:bg-red-700"
+                    onClick={() => handleDeleteRow(index)}
+                  >
+                    Delete
+                  </button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+
+      <button className="w-full p-2 bg-green-500 text-white rounded hover:bg-green-700" onClick={handleAddMedication}>
         Add Medication
       </button>
     </div>
