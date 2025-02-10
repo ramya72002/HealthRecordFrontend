@@ -3,28 +3,41 @@ import React, { useState } from "react";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 
-const UploadFile = () => {  // Renamed to UploadFile to reflect broader support
+const UploadFile = () => {
   const router = useRouter();
-  const [file, setFile] = useState<File | null>(null); 
-  const [preview, setPreview] = useState<string | null>(null); 
+  const [file, setFile] = useState<File | null>(null);
+  const [preview, setPreview] = useState<string | null>(null);
   const [uploading, setUploading] = useState(false);
+  const [error, setError] = useState<string | null>(null);  // Error message for file size
+
+  const MAX_FILE_SIZE = 1 * 1024 * 1024; // 1 MB in bytes
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const selectedFile = event.target.files?.[0]; 
+    const selectedFile = event.target.files?.[0];
+
     if (selectedFile) {
-      setFile(selectedFile);
-      
-      // Preview only if it's an image
-      if (selectedFile.type.startsWith('image/')) {
-        setPreview(URL.createObjectURL(selectedFile));
-      } else {
+      console.log(selectedFile.size,MAX_FILE_SIZE)
+      if (selectedFile.size >=MAX_FILE_SIZE) {
+        setError("File size must be 1 MB or less.");
+        setFile(null);
         setPreview(null);
+      } else {
+        setFile(selectedFile);
+        setError(null); // Clear any previous errors
+        
+        if (selectedFile.type.startsWith('image/')) {
+          setPreview(URL.createObjectURL(selectedFile));
+        } else {
+          setPreview(null);
+        }
       }
     }
   };
 
   const handleUpload = async () => {
-    if (!file) return alert("Please select a file first.");
+    if (!file) {
+      return alert("Please select a valid file under 1 MB.");
+    }
 
     const formData = new FormData();
     formData.append("file", file);
@@ -42,13 +55,11 @@ const UploadFile = () => {  // Renamed to UploadFile to reflect broader support
       );
 
       if (response.status === 200) {
-        const { file_url } = response.data;  // Updated to match backend response
+        const { file_url } = response.data;
         alert("File uploaded successfully!");
-        
-        // Redirect with file URL
         router.push(`/ui/categories?fileUrl=${file_url}`);
       } else {
-        alert("Error uploading file");
+        alert("Error uploading file.");
       }
     } catch (error) {
       alert("Error uploading file.");
@@ -61,8 +72,10 @@ const UploadFile = () => {  // Renamed to UploadFile to reflect broader support
     <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 p-4">
       <h1 className="text-2xl font-bold mb-4">Upload File</h1>
       
-      {/* Remove accept="image/*" if you want to allow all file types */}
       <input type="file" onChange={handleFileChange} className="mb-4" />
+
+      {/* Error Message */}
+      {error && <p className="text-red-500 mb-4">{error}</p>}
 
       {/* Show image preview if applicable */}
       {preview && (
@@ -71,7 +84,7 @@ const UploadFile = () => {  // Renamed to UploadFile to reflect broader support
 
       <button
         onClick={handleUpload}
-        disabled={uploading}
+        disabled={uploading || !!error}
         className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 disabled:opacity-50"
       >
         {uploading ? "Uploading..." : "Upload File"}

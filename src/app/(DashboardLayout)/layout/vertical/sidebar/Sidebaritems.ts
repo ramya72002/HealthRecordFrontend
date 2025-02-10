@@ -36,12 +36,12 @@ const SidebarContent: MenuItem[] = [
   {
     heading: "Utilities",
     children: [
-      {
-        name: "Post Records",
-        icon: "solar:text-circle-outline",
-        id: uniqueId(),
-        url: "/ui/postrecords",
-      },
+      // {
+      //   name: "Post Records",
+      //   icon: "solar:text-circle-outline",
+      //   id: uniqueId(),
+      //   url: "/ui/postrecords",
+      // },
       {
         name: "Medications",
         icon: "solar:calendar-outline",
