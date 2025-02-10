@@ -1,3 +1,6 @@
+import { Icon } from '@iconify/react';
+import { uniqueId } from 'lodash';
+
 export interface ChildItem {
   id?: number | string;
   name?: string;
@@ -19,15 +22,13 @@ export interface MenuItem {
   url?: any;
 }
 
-import { uniqueId } from "lodash";
-
 const SidebarContent: MenuItem[] = [
   {
     heading: "Dashboards",
     children: [
       {
         name: "Dashboard",
-        icon: "solar:widget-add-line-duotone",
+        icon: "solar:chart-line-duotone",  // More suitable for dashboard
         id: uniqueId(),
         url: "/dashboard",
       },
@@ -36,80 +37,56 @@ const SidebarContent: MenuItem[] = [
   {
     heading: "Utilities",
     children: [
-      // {
-      //   name: "Post Records",
-      //   icon: "solar:text-circle-outline",
-      //   id: uniqueId(),
-      //   url: "/ui/postrecords",
-      // },
       {
         name: "Health Records",
-        icon: "solar:calendar-outline",
+        icon: "solar:heart-linear",  // Represents health records
         id: uniqueId(),
-        children: [  // Submenu items for Medications
+        children: [
           {
             name: "Upload Records",
-            icon: "solar:calendar-outline",
+            icon: "solar:cloud-upload-outline",  // Upload icon
             id: uniqueId(),
             url: "/ui/uploadehr",
           },
           {
             name: "View Records",
-            icon: "solar:calendar-outline",
+            icon: "solar:document-linear",  // Document icon for viewing
             id: uniqueId(),
             url: "/ui/getehr",
           },
           {
             name: "Send Records",
-            icon: "solar:calendar-outline",
+            icon: "solar:share-linear",//sendng icon
             id: uniqueId(),
             url: "/ui/sendehr",
           },
-        ]
+        ],
       },
       {
         name: "Medications",
-        icon: "solar:calendar-outline",
+        icon: "solar:pill-linear",  // Represents medications
         id: uniqueId(),
-        children: [  // Submenu items for Medications
+        children: [
           {
             name: "Add Medication",
-            icon: "solar:calendar-outline",
+            icon: "solar:document-linear",
             id: uniqueId(),
             url: "/ui/addmedications",
           },
           {
             name: "View Medication",
-            icon: "solar:calendar-outline",
+            icon: "solar:eye-linear",  // Eye icon for viewing
             id: uniqueId(),
             url: "/ui/viewmedications",
           },
           {
             name: "Calendar View",
-            icon: "solar:calendar-outline",
+            icon: "solar:calendar-linear",  // Calendar view icon
             id: uniqueId(),
             url: "/ui/calendarmedications",
           },
-        ]
+        ],
       },
-      // {
-      //   name: "menu1",
-      //   icon: "solar:bedside-table-3-linear",
-      //   id: uniqueId(),
-      //   url: "/ui/table",
-      // },
-      // {
-      //   name: "menu2",
-      //   icon: "solar:password-minimalistic-outline",
-      //   id: uniqueId(),
-      //   url: "/ui/form",
-      // },
-      // {
-      //   name: "menu3",
-      //   icon: "solar:airbuds-case-charge-outline",
-      //   id: uniqueId(),
-      //   url: "/ui/shadow",
-      // },
     ],
   },
   {
@@ -117,35 +94,18 @@ const SidebarContent: MenuItem[] = [
     children: [
       {
         name: "Login",
-        icon: "solar:login-2-linear",
+        icon: "solar:login-2-linear",  // Login icon is already appropriate
         id: uniqueId(),
         url: "/auth/login",
       },
       {
         name: "Register",
-        icon: "solar:shield-user-outline",
+        icon: "solar:user-plus-outline",  // Better icon for registration
         id: uniqueId(),
         url: "/auth/register",
       },
     ],
   },
-  // {
-  //   heading: "Extra",
-  //   children: [
-  //     {
-  //       name: "Icons",
-  //       icon: "solar:smile-circle-outline",
-  //       id: uniqueId(),
-  //       url: "/icons/solar",
-  //     },
-  //     {
-  //       name: "Sample Page",
-  //       icon: "solar:notes-minimalistic-outline",
-  //       id: uniqueId(),
-  //       url: "/sample-page",
-  //     },
-  //   ],
-  // },
 ];
 
 export default SidebarContent;
