@@ -22,7 +22,7 @@ export default function RootLayout({
     if (pathname === "/") {
       router.push("/auth/login");
     }
-  }, [pathname, router]);
+  }, []);
 
   return (
     <html lang="en">
