@@ -41,19 +41,19 @@ const Profile = () => {
         </Dropdown.Item>
         <Dropdown.Item
           as={Link}
-          href="#"
+         href="/ui/calendarmedications"
           className="px-3 py-3 flex items-center bg-hover group/link w-full gap-3 text-dark"
         >
           <Icon icon="solar:letter-linear" height={20} />
-          My Account
+          Calender
         </Dropdown.Item>
         <Dropdown.Item
           as={Link}
-          href="#"
+          href="/ui/getehr"
           className="px-3 py-3 flex items-center bg-hover group/link w-full gap-3 text-dark"
         >
           <Icon icon="solar:checklist-linear" height={20} />
-          My Task
+         Health Records
         </Dropdown.Item>
         <div className="p-3 pt-0">
           <Button
