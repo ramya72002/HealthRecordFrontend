@@ -7,7 +7,7 @@ import './categories.scss';
 const CategoriesContent = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const imageUrl = searchParams.get('imageUrl');
+  const fileUrl = searchParams.get('fileUrl');
   
   const [selectedCategory, setSelectedCategory] = useState('');
   const [title, setTitle] = useState('');
@@ -38,7 +38,8 @@ const CategoriesContent = () => {
   ];
 
   const handleUpload = async () => {
-    if (!title || !selectedCategory || !date || !imageUrl) {
+    if (!title || !selectedCategory || !date || !fileUrl) {
+      console.log(title,selectedCategory,date,fileUrl)
       alert("All fields are required!");
       return;
     }
@@ -57,7 +58,7 @@ const CategoriesContent = () => {
 
       const payload = {
         email: parsedDetails.user.email,
-        image_url: imageUrl,
+        image_url: fileUrl,
         title: title,
         category: selectedCategory,
         date_time: new Date(date).toISOString(),
@@ -123,10 +124,10 @@ const CategoriesContent = () => {
         />
       </div>
 
-      {imageUrl && (
+      {fileUrl && (
         <div className="imageContainer">
           <p className="imageText">Uploaded Image</p>
-          <img src={imageUrl} alt="Uploaded" className="image" />
+          <img src={fileUrl} alt="Uploaded" className="image" />
         </div>
       )}
 
