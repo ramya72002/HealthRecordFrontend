@@ -53,11 +53,11 @@ const MedicationsView: React.FC = () => {
     try {
       const userDetails = JSON.parse(localStorage.getItem("userDetails") || '{}');
 
-      if (userDetails?.user_id) {
+      if (userDetails?.user.user_id ) {
         const response = await axios.post(
           "https://health-project-backend-url.vercel.app/delete_medication_wrt_id",
           {
-            user_id: userDetails.user_id,
+            user_id: userDetails.user.user_id,
             medication_id: medicationId,
           }
         );
