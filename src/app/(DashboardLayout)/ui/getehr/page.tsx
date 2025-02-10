@@ -4,26 +4,35 @@ import axios from "axios";
 import { useRouter } from "next/navigation";
 import "./getehr.scss"; // Import SCSS module for styling
 
-const DisplayRecords = () => {
-  const [userId, setUserId] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [records, setRecords] = useState([]);
-  const [filteredRecords, setFilteredRecords] = useState([]);
-  const [email, setEmail] = useState(null);
-  const [menuVisible, setMenuVisible] = useState(null);
-  const [searchQuery, setSearchQuery] = useState("");
-  const [selectedCategory, setSelectedCategory] = useState("All");
-  const [sortMenuVisible, setSortMenuVisible] = useState(false);
-  const [editingRecord, setEditingRecord] = useState(null);
-  const [editIndex, setEditIndex] = useState(null);
-  const [editTitle, setEditTitle] = useState("");
-  const [editCategory, setEditCategory] = useState("");
+type RecordType = {
+  date_time: string | number | Date;
+  title: string;
+  category: string;
+  image_url?: string;
+  id?: string | number;
+};
+
+const DisplayRecords: React.FC = () => {
+  const [userId, setUserId] = useState<string | null>(null);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [records, setRecords] = useState<RecordType[]>([]);
+  const [filteredRecords, setFilteredRecords] = useState<RecordType[]>([]);
+
+  const [email, setEmail] = useState<string | null>(null);
+  const [menuVisible, setMenuVisible] = useState<number | null>(null);
+  const [searchQuery, setSearchQuery] = useState<string>("");
+  const [selectedCategory, setSelectedCategory] = useState<string>("All");
+  const [sortMenuVisible, setSortMenuVisible] = useState<boolean>(false);
+  const [editingRecord, setEditingRecord] = useState<string | number | null>(null);
+  const [editIndex, setEditIndex] = useState<number | null>(null);
+  const [editTitle, setEditTitle] = useState<string>("");
+  const [editCategory, setEditCategory] = useState<string>("");
   const router = useRouter();
 
   useEffect(() => {
     const fetchEmail = async () => {
       const userDetails = JSON.parse(localStorage.getItem("userDetails") || "{}");
-      if (userDetails?.user.email) {
+      if (userDetails?.user?.email) {
         setEmail(userDetails.user.email);
         setUserId(userDetails.user.user_id);
       } else {
@@ -33,14 +42,14 @@ const DisplayRecords = () => {
     };
 
     fetchEmail();
-  }, []);
+  }, [router]);
 
   useEffect(() => {
     if (email) {
       axios
         .get(`https://health-project-backend-url.vercel.app/get_uploaded_records?email=${email}`)
         .then((response) => {
-          const uploads = response.data.uploads;
+          const uploads: RecordType[] = response.data.uploads;
           setRecords(uploads);
           setFilteredRecords(uploads);
           setLoading(false);
@@ -52,22 +61,22 @@ const DisplayRecords = () => {
     }
   }, [email]);
 
-  const handleCopyLink = (link) => {
+  const handleCopyLink = (link: string) => {
     navigator.clipboard.writeText(link);
     alert("Image link copied successfully.");
   };
 
-  const handleSearch = (query) => {
+  const handleSearch = (query: string) => {
     setSearchQuery(query);
     filterRecords(query, selectedCategory);
   };
 
-  const handleCategoryChange = (category) => {
+  const handleCategoryChange = (category: string) => {
     setSelectedCategory(category);
     filterRecords(searchQuery, category);
   };
 
-  const filterRecords = (query, category) => {
+  const filterRecords = (query: string, category: string) => {
     const lowercasedQuery = query.toLowerCase();
     const filtered = records.filter(
       (record) =>
@@ -78,25 +87,26 @@ const DisplayRecords = () => {
     setFilteredRecords(filtered);
   };
 
-  const sortRecords = (order) => {
+  const sortRecords = (order: string) => {
     const sorted = [...records].sort((a, b) => {
-      const dateA = new Date(a.date_time);
-      const dateB = new Date(b.date_time);
+      const dateA = new Date(a.date_time).getTime();
+      const dateB = new Date(b.date_time).getTime();
       return order === "latest" ? dateB - dateA : dateA - dateB;
     });
+
     setRecords(sorted);
     setFilteredRecords(sorted);
     setSortMenuVisible(false);
   };
 
-  const handleEdit = (item, index) => {
-    setMenuVisible(false);
+  const handleEdit = (item: RecordType, index: number) => {
+    setMenuVisible(null);
     setEditIndex(index);
     setEditTitle(item.title);
     setEditCategory(item.category);
   };
 
-  const handleSave = async (index) => {
+  const handleSave = async (index: number) => {
     try {
       const updatedRecord = {
         user_id: userId,
@@ -126,8 +136,8 @@ const DisplayRecords = () => {
     }
   };
 
-  const renderItem = ({ item, index }) => (
-    <div className="recordContainer">
+  const renderItem = (item: RecordType, index: number) => (
+    <div className="recordContainer" key={index}>
       <img src={item.image_url} alt={item.title} className="image" />
       <div className="detailsContainer">
         {editIndex === index ? (
@@ -168,11 +178,11 @@ const DisplayRecords = () => {
       </button>
       {menuVisible === index && (
         <div className="contextMenu">
-          <button onClick={() => handleCopyLink(item.image_url)} className="menuOption">
-            🗌 Copy Link
+          <button onClick={() => handleCopyLink(item.image_url || "")} className="menuOption">
+            🗜 Copy Link
           </button>
           {editingRecord === item.id ? (
-            <button onClick={() => handleSave(item.id)} className="menuOption">
+            <button onClick={() => handleSave(index)} className="menuOption">
               💾 Save
             </button>
           ) : (
@@ -215,7 +225,7 @@ const DisplayRecords = () => {
         )}
       </div>
       <div className="recordsList">
-        {filteredRecords.map((item, index) => renderItem({ item, index }))}
+        {filteredRecords.map((item, index) => renderItem(item, index))}
       </div>
     </div>
   );
