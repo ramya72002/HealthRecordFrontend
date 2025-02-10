@@ -1,86 +1,216 @@
-.postrecords-container {
+.medications-container {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  background-color: #f4faff; /* Light blue background */
-  padding: 5px;
+  align-items: center; 
+  background-color: #f4faff; 
+  font-family: 'Inter', sans-serif;
 }
 
-.heading, .form-heading {
+.medications-header {
   font-size: 2rem;
+  font-weight: 700;
   color: #0073e6;
-  margin-bottom: 20px;
-}
-
-.card-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 20px;
-  width: 100%;
-  max-width: 2200px;
-}
-
-.category-card {
-  background-color: #ffffff;
-  border: 1px solid #d1e0ff;
-  border-radius: 10px;
-  padding: 20px;
-  text-align: center;
-  font-size: 1.1rem;
-  color: #333333;
-  box-shadow: 0px 4px 8px rgba(0, 115, 230, 0.1);
-  transition: transform 0.3s, box-shadow 0.3s;
-
-  &:hover {
-    transform: translateY(-5px);
-    box-shadow: 0px 6px 12px rgba(0, 115, 230, 0.2);
-    cursor: pointer;
-  }
+  margin-bottom: 2rem;
 }
 
 .form-container {
   background-color: #ffffff;
-  padding: 25px;
-  border-radius: 10px;
-  // box-shadow: 1px 4px 10px rgba(0, 115, 230, 0.1);
-  max-width: 1000px;
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 8px rgba(0, 115, 230, 0.1);
   width: 100%;
-}
-
-.record-form {
-  display: flex;
-  flex-direction: column;
+  max-width:900px;
 }
 
 .form-group {
-  margin-bottom: 20px;
+  margin-bottom: 1.5rem;
+
+  label {
+    font-size: 1rem;
+    color: #333333;
+    margin-bottom: 0.5rem;
+    display: block;
+  }
+
+  .form-input {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid #d1e0ff;
+    border-radius: 8px;
+    font-size: 1rem;
+    color: #333333;
+    transition: border-color 0.3s ease;
+
+    &:focus {
+      outline: none;
+      border-color: #0073e6;
+    }
+  }
+
+  .frequency-button {
+    background-color: #0073e6;
+    color: #ffffff;
+    text-align: left;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+
+    &:hover {
+      background-color: #005bb5;
+    }
+  }
 }
 
-.form-group label {
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-content {
+  background-color: #ffffff;
+  padding: 2rem;
+  border-radius: 12px;
+  width: 100%;
+  max-width: 400px;
+
+  .modal-header {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #0073e6;
+    margin-bottom: 1.5rem;
+  }
+
+  .modal-option {
+    display: block;
+    width: 100%;
+    padding: 0.75rem;
+    border: none;
+    background-color: transparent;
+    font-size: 1rem;
+    color: #333333;
+    text-align: left;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+
+    &:hover {
+      background-color: #f0f7ff;
+    }
+  }
+
+  .modal-close {
+    width: 100%;
+    padding: 0.75rem;
+    background-color: #ff4d4d;
+    color: #ffffff;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    cursor: pointer;
+    margin-top: 1rem;
+    transition: background-color 0.3s ease;
+
+    &:hover {
+      background-color: #cc0000;
+    }
+  }
+}
+
+.days-grid, .dates-grid {
+  display: grid;
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.days-grid {
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.dates-grid {
+  grid-template-columns: repeat(7, 1fr);
+}
+
+.day-button, .date-button {
+  padding: 0.75rem;
+  border: 1px solid #d1e0ff;
+  border-radius: 8px;
+  background-color: #f0f7ff;
   font-size: 1rem;
   color: #333333;
-  margin-bottom: 5px;
-  display: block;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+
+  &.selected {
+    background-color: #0073e6;
+    color: #ffffff;
+  }
+
+  &:hover {
+    background-color: #d1e0ff;
+  }
 }
 
-.form-group input {
-  width: 100%;
-  padding: 10px;
-  border-radius: 5px;
-  border: 1px solid #d1e0ff;
-  box-shadow: 0px 2px 5px rgba(0, 115, 230, 0.1);
-  font-size: 1rem;
+.schedule-container {
+  margin-bottom: 1.5rem;
+
+  .schedule-header {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #0073e6;
+    margin-bottom: 1rem;
+  }
+
+  .schedule-table {
+    width: 100%;
+    border-collapse: collapse;
+
+    th, td {
+      padding: 0.75rem;
+      border: 1px solid #d1e0ff;
+      text-align: center;
+    }
+
+    .time-input {
+      width: 100%;
+      padding: 0.5rem;
+      border: 1px solid #d1e0ff;
+      border-radius: 8px;
+      font-size: 1rem;
+      color: #333333;
+    }
+
+    .delete-button {
+      padding: 0.5rem 1rem;
+      background-color: #ff4d4d;
+      color: #ffffff;
+      border: none;
+      border-radius: 8px;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+
+      &:hover {
+        background-color: #cc0000;
+      }
+    }
+  }
 }
 
 .submit-button {
+  width: 100%;
+  padding: 0.75rem;
   background-color: #0073e6;
   color: #ffffff;
-  padding: 10px 20px;
   border: none;
-  border-radius: 5px;
-  cursor: pointer;
+  border-radius: 8px;
   font-size: 1rem;
-  transition: background-color 0.3s;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
 
   &:hover {
     background-color: #005bb5;
