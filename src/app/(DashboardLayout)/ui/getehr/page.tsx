@@ -147,69 +147,84 @@ const DisplayRecords: React.FC = () => {
     setIsModalOpen(false);
   };
 
-  const renderItem = (item: RecordType, index: number) => (
-    <div className="recordContainer" key={index}>
-      <img
-        src={item.image_url}
-        alt={item.title}
-        className="image"
-        onClick={() => item.image_url && openModal(item.image_url)}
-      />
-      <div className="detailsContainer">
-        {editIndex === index ? (
-          <>
-            <input
-              type="text"
-              value={editTitle}
-              onChange={(e) => setEditTitle(e.target.value)}
-              className="editInput"
-            />
-            <input
-              type="text"
-              value={editCategory}
-              onChange={(e) => setEditCategory(e.target.value)}
-              className="editInput"
-            />
-          </>
+  const renderItem = (item: RecordType, index: number) => {
+    const isPdf = item.image_url?.endsWith(".pdf");
+  
+    return (
+      <div className="recordContainer" key={index}>
+        {isPdf ? (
+          <div
+            className="pdfContainer"
+            onClick={() => window.open(item.image_url, "_blank", "noopener,noreferrer")}
+          >
+            <img src="/images/pdf-icon.png" alt="click to Download " className="image"/>
+          </div>
         ) : (
-          <>
-            <h3 className="title">{item.title}</h3>
-            <p className="category">{item.category}</p>
-          </>
+          <img
+            src={item.image_url}
+            alt={item.title}
+            className="image"
+            onClick={() => item.image_url && openModal(item.image_url)}
+          />
         )}
-        <div className="dateContainer">
-          <p className="date">{new Date(item.date_time).toLocaleString()}</p>
-          {editIndex === index && (
-            <button onClick={() => handleSave(index)} className="saveButton">
-              Save
-            </button>
-          )}
-        </div>
-      </div>
-      <button
-        onClick={() => setMenuVisible(menuVisible === index ? null : index)}
-        className="menuButton"
-      >
-        ⋮
-      </button>
-      {menuVisible === index && (
-        <div className="contextMenu">
-          <button onClick={() => handleCopyLink(item.image_url || "")} className="menuOption">
-            🗜 Copy Link
-          </button>
-          {editingRecord === item.id ? (
-            <button onClick={() => handleSave(index)} className="menuOption">
-              💾 Save
-            </button>
+        <div className="detailsContainer">
+          {editIndex === index ? (
+            <>
+              <input
+                type="text"
+                value={editTitle}
+                onChange={(e) => setEditTitle(e.target.value)}
+                className="editInput"
+              />
+              <input
+                type="text"
+                value={editCategory}
+                onChange={(e) => setEditCategory(e.target.value)}
+                className="editInput"
+              />
+            </>
           ) : (
-            <button onClick={() => handleEdit(item, index)} className="menuOption">
-              ✏ Edit
-            </button>
+            <>
+              <h3 className="title">{item.title}</h3>
+              <p className="category">{item.category}</p>
+            </>
           )}
+          <div className="dateContainer">
+            <p className="date">{new Date(item.date_time).toLocaleString()}</p>
+            {editIndex === index && (
+              <button onClick={() => handleSave(index)} className="saveButton">
+                Save
+              </button>
+            )}
+          </div>
         </div>
-      )}
-    </div>
-  );
+        <button
+          onClick={() => setMenuVisible(menuVisible === index ? null : index)}
+          className="menuButton"
+        >
+          ⋮
+        </button>
+        {menuVisible === index && (
+          <div className="contextMenu">
+            <button onClick={() => handleCopyLink(item.image_url || "")} className="menuOption">
+              🗜 Copy Link
+            </button>
+            {editingRecord === item.id ? (
+              <button onClick={() => handleSave(index)} className="menuOption">
+                💾 Save
+              </button>
+            ) : (
+              <button onClick={() => handleEdit(item, index)} className="menuOption">
+                ✏ Edit
+              </button>
+            )}
+          </div>
+        )}
+      </div>
+    );
+  };
+  
+  
 
   if (loading) {
     return <div className="loadingContainer">Loading...</div>;
