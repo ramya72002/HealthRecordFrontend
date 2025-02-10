@@ -1,4 +1,4 @@
-"use client"; // Mark as a Client Component
+"use client";
 import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
@@ -9,17 +9,20 @@ import "react-toastify/dist/ReactToastify.css"; // Toastify CSS
 const Home = () => {
   const router = useRouter();
   const [userId, setUserId] = useState("");
+  const [qrCodeUrl, setQrCodeUrl] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     // Fetch user details from localStorage
-    const fetchUserId = () => {
+    const fetchUserId = async () => {
       try {
         const userDetails = localStorage.getItem("userDetails");
         if (userDetails) {
           const parsedDetails = JSON.parse(userDetails);
           if (parsedDetails && parsedDetails.user.user_id) {
-            setUserId(parsedDetails.user.user_id);
+            const id = parsedDetails.user.user_id;
+            setUserId(id);
+            generateQrCode(id); // Generate QR code
           }
         }
       } catch (error) {
@@ -32,6 +35,15 @@ const Home = () => {
     fetchUserId();
   }, []);
 
+  const generateQrCode = async (id: string) => {
+    try {
+      const qrCodeDataUrl = await QRCode.toDataURL(id);
+      setQrCodeUrl(qrCodeDataUrl);
+    } catch (error) {
+      console.error("Error generating QR code:", error);
+    }
+  };
+
   const handleCopy = () => {
     if (userId) {
       navigator.clipboard.writeText(userId); // Copy userId to clipboard
@@ -39,13 +51,8 @@ const Home = () => {
     }
   };
 
-  const handleAddMedications = () => {
-    router.push("/add-medications"); // Navigate to Add Medications page
-  };
-
-  // Handle tab navigation
   const handleTabClick = (route: string) => {
-    router.push(route);
+    router.push(route); // Navigate to the selected route
   };
 
   return (
@@ -53,24 +60,15 @@ const Home = () => {
       {/* Tabs */}
       <div className="w-full max-w-md bg-white rounded-lg shadow-lg p-4 mb-4">
         <div className="flex justify-around">
-          <button
-            className="text-blue-600 font-semibold hover:text-blue-800"
-            onClick={() => handleTabClick("/ui/uploadehr")}
-          >
-            Upload EHR
-          </button>
-          <button
-            className="text-blue-600 font-semibold hover:text-blue-800"
-            onClick={() => handleTabClick("/ui/getehr")}
-          >
-            Get EHR
-          </button>
-          <button
-            className="text-blue-600 font-semibold hover:text-blue-800"
-            onClick={() => handleTabClick("/ui/sendehr")}
-          >
-            Send EHR
-          </button>
+          {["/ui/uploadehr", "/ui/getehr", "/ui/sendehr"].map((route, index) => (
+            <button
+              key={index}
+              className="text-blue-600 font-semibold hover:text-blue-800"
+              onClick={() => handleTabClick(route)}
+            >
+              {route.split("/")[2].replace("ehr", " EHR").replace(/ui/, "").toUpperCase()}
+            </button>
+          ))}
         </div>
       </div>
 
@@ -78,26 +76,24 @@ const Home = () => {
       <div className="w-full max-w-md bg-white rounded-lg shadow-lg p-6">
         <div className="flex justify-center">
           <Image
-            src="/images/upload.png" // Path to your image in the public folder
+            src="/images/upload.png"
             alt="Upload"
             width={100}
             height={100}
             className="rounded-full border-2 border-gray-300"
           />
         </div>
-        {/* Text */}
+
         <p className="text-sm text-gray-700 text-center mt-4 leading-relaxed">
           Share your user ID with your doctor to upload your records from them.
         </p>
 
-        {/* Loading Indicator */}
         {loading ? (
           <div className="flex justify-center mt-6">
             <div className="w-8 h-8 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
           </div>
         ) : (
           <>
-            {/* User ID */}
             <div className="mt-6 text-center">
               <input
                 type="text"
@@ -108,13 +104,18 @@ const Home = () => {
               />
             </div>
 
-            {/* QR Code */}
-            {userId && (
+            {qrCodeUrl && (
               <div className="mt-6 flex flex-col items-center">
                 <p className="text-sm text-gray-700 mb-4">
                   Scan this QR code to share your User ID:
                 </p>
-                {/* <QRCode value={userId} size={150} bgColor="#ffffff" fgColor="#000000" /> */}
+                <Image
+                  src={qrCodeUrl}
+                  alt="QR Code"
+                  width={150}
+                  height={150}
+                  className="border-2 border-gray-300 rounded-lg"
+                />
               </div>
             )}
           </>
