@@ -53,7 +53,7 @@ const AddUserID = () => {
 
       if (response.status === 200) {
         alert("Images and details uploaded successfully!");
-        router.push("/");
+        router.push("/dashboard")
       } else {
         alert(`Failed to save uploads: ${response.data.message}`);
       }

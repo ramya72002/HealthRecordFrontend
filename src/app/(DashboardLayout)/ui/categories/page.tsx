@@ -74,7 +74,7 @@ const CategoriesContent = () => {
 
       if (response.ok) {
         alert('Record uploaded successfully!');
-        router.push('/');
+        router.push('/dashboard')
       } else {
         alert(result.message || 'Failed to upload record.');
       }
@@ -125,11 +125,19 @@ const CategoriesContent = () => {
       </div>
 
       {fileUrl && (
-        <div className="imageContainer">
-          <p className="imageText">Uploaded Image</p>
-          <img src={fileUrl} alt="Uploaded" className="image" />
-        </div>
-      )}
+  <div className="fileContainer">
+    <p className="fileText">Uploaded File/Image</p>
+
+    {fileUrl.endsWith('.pdf') ? (
+      <div className="downloadLinkContainer">
+        <p>The uploaded file is a PDF. <a href={fileUrl} download className="downloadLink">Click here to download</a></p>
+      </div>
+    ) : (
+      <img src={fileUrl} alt="Uploaded" className="image" />
+    )}
+  </div>
+)}
+
 
       <button
         className="button"
