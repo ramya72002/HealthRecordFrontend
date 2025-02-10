@@ -69,7 +69,7 @@ const UploadFile = () => {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 p-4">
+    <div className="flex flex-col items-center justify-center bg-gray-100 p-4">
       <h1 className="text-2xl font-bold mb-4">Upload File</h1>
       
       <input type="file" onChange={handleFileChange} className="mb-4" />
