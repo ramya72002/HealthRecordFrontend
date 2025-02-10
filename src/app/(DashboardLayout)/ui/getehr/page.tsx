@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import "./getehr.scss"; // Import SCSS module for styling
+import ImageModal from "@/app/components/dashboard/ImageModel";
 
 type RecordType = {
   date_time: string | number | Date;
@@ -17,7 +18,6 @@ const DisplayRecords: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(true);
   const [records, setRecords] = useState<RecordType[]>([]);
   const [filteredRecords, setFilteredRecords] = useState<RecordType[]>([]);
-
   const [email, setEmail] = useState<string | null>(null);
   const [menuVisible, setMenuVisible] = useState<number | null>(null);
   const [searchQuery, setSearchQuery] = useState<string>("");
@@ -27,6 +27,8 @@ const DisplayRecords: React.FC = () => {
   const [editIndex, setEditIndex] = useState<number | null>(null);
   const [editTitle, setEditTitle] = useState<string>("");
   const [editCategory, setEditCategory] = useState<string>("");
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  const [selectedImageUrl, setSelectedImageUrl] = useState<string>("");
   const router = useRouter();
 
   useEffect(() => {
@@ -136,9 +138,23 @@ const DisplayRecords: React.FC = () => {
     }
   };
 
+  const openModal = (imageUrl: string) => {
+    setSelectedImageUrl(imageUrl);
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
+
   const renderItem = (item: RecordType, index: number) => (
     <div className="recordContainer" key={index}>
-      <img src={item.image_url} alt={item.title} className="image" />
+      <img
+        src={item.image_url}
+        alt={item.title}
+        className="image"
+        onClick={() => item.image_url && openModal(item.image_url)}
+      />
       <div className="detailsContainer">
         {editIndex === index ? (
           <>
@@ -227,6 +243,7 @@ const DisplayRecords: React.FC = () => {
       <div className="recordsList">
         {filteredRecords.map((item, index) => renderItem(item, index))}
       </div>
+      <ImageModal isOpen={isModalOpen} onClose={closeModal} imageUrl={selectedImageUrl} />
     </div>
   );
 };
