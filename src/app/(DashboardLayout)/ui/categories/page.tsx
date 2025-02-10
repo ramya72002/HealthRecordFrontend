@@ -87,7 +87,7 @@ const CategoriesContent = () => {
   };
 
   return (
-    <div className="container">
+    <div className="container1">
       <h1 className="header">Assign Tags</h1>
 
       <input
