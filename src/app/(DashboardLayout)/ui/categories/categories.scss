@@ -30,6 +30,37 @@
     outline: none;
   }
 }
+.downloadLinkContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px;
+  margin: 10px 0;  
+  border-radius: 10px;  
+
+  &:hover {
+    background-color: #e0e0e0; // Darker on hover for interaction feedback
+    transform: scale(1.02); // Slight zoom on hover
+  }
+
+  .pdfIcon {
+    font-size: 24px; // Adjust icon size
+    color: #d32f2f; // Red color for PDF icon
+    margin-right: 10px;
+  }
+
+  .downloadLink {
+    font-size: 16px;
+    color: #333; // Dark text color for readability
+    text-decoration: none; // Remove underline
+    font-weight: bold;
+
+    &:hover {
+      color: #0ea7ee; // Darker text on hover
+      text-decoration: underline; // Underline on hover
+    }
+  }
+}
 
 .pickerContainer, .dateContainer {
   width: 100%;
