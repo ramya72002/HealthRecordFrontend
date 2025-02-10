@@ -20,7 +20,7 @@ const Error = () => {
           <Button
             color={"primary"}
             as={Link}
-            href="/"
+            href="/ui/dashboard"
             className="w-fit mt-6 mx-auto"
           >
             Go Back to Home

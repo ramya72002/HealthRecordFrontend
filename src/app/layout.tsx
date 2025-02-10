@@ -22,6 +22,9 @@ export default function RootLayout({
     if (!userDetails && pathname === "/") {
       router.push("/auth/login");
     }
+    else{
+      router.push("/ui/dashboard");
+    }
   }, []); // Dependency added to monitor path changes
 
   return (
