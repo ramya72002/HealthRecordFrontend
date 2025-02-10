@@ -23,7 +23,7 @@ export default function RootLayout({
       router.push("/auth/login");
     }
     else{
-      router.push("/ui/dashboard");
+      router.push("/dashboard");
     }
   }, []); // Dependency added to monitor path changes
 

@@ -43,6 +43,31 @@ const SidebarContent: MenuItem[] = [
       //   url: "/ui/postrecords",
       // },
       {
+        name: "Health Records",
+        icon: "solar:calendar-outline",
+        id: uniqueId(),
+        children: [  // Submenu items for Medications
+          {
+            name: "Upload Records",
+            icon: "solar:calendar-outline",
+            id: uniqueId(),
+            url: "/ui/uploadehr",
+          },
+          {
+            name: "View Records",
+            icon: "solar:calendar-outline",
+            id: uniqueId(),
+            url: "/ui/getehr",
+          },
+          {
+            name: "Send Records",
+            icon: "solar:calendar-outline",
+            id: uniqueId(),
+            url: "/ui/sendehr",
+          },
+        ]
+      },
+      {
         name: "Medications",
         icon: "solar:calendar-outline",
         id: uniqueId(),
