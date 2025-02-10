@@ -1,11 +1,10 @@
-'use client'
-import React, { useState, useEffect } from 'react';
-import { useRouter } from 'next/navigation';
+'use client';
+import React, { useState, useEffect, Suspense } from 'react';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { format } from 'date-fns';
 import './categories.scss';
-import { useSearchParams } from 'next/navigation';
 
-const Categories = () => {
+const CategoriesContent = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
   const imageUrl = searchParams.get('imageUrl');
@@ -139,6 +138,14 @@ const Categories = () => {
         {loading ? 'Uploading...' : 'Upload Record'}
       </button>
     </div>
+  );
+};
+
+const Categories = () => {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <CategoriesContent />
+    </Suspense>
   );
 };
 
