@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import QRCode from "qrcode"; // For generating QR codes
-import { toast } from "react-toastify"; // For showing alerts
+import { toast, ToastContainer } from "react-toastify"; // Import ToastContainer
 import "react-toastify/dist/ReactToastify.css"; // Toastify CSS
 
 const Home = () => {
@@ -13,16 +13,15 @@ const Home = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Fetch user details from localStorage
     const fetchUserId = async () => {
       try {
         const userDetails = localStorage.getItem("userDetails");
         if (userDetails) {
           const parsedDetails = JSON.parse(userDetails);
-          if (parsedDetails && parsedDetails.user.user_id) {
+          if (parsedDetails?.user?.user_id) {
             const id = parsedDetails.user.user_id;
             setUserId(id);
-            generateQrCode(id); // Generate QR code
+            generateQrCode(id);
           }
         }
       } catch (error) {
@@ -46,17 +45,27 @@ const Home = () => {
 
   const handleCopy = () => {
     if (userId) {
-      navigator.clipboard.writeText(userId); // Copy userId to clipboard
-      toast.success("User ID copied to clipboard!"); // Show success message
+      navigator.clipboard.writeText(userId);
+      toast.success("User ID copied to clipboard!", {
+        autoClose: 2000, // Set autoClose to 2 seconds
+        position: "top-center",
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: false,
+        draggable: false,
+      });
     }
   };
 
   const handleTabClick = (route: string) => {
-    router.push(route); // Navigate to the selected route
+    router.push(route);
   };
 
   return (
     <div className="flex flex-col items-center justify-start min-h-screen bg-gray-100 p-4">
+      {/* Toast Notification */}
+      <ToastContainer />
+
       {/* Tabs */}
       <div className="w-full max-w-md bg-white rounded-lg shadow-lg p-4 mb-4">
         <div className="flex justify-around">
