@@ -172,8 +172,8 @@ const CalendarMedications = () => {
 
       {/* Modal for displaying medication details */}
       {modalVisible && (
-        <div className="modalOverlay">
-          <div className="modalContent">
+        <div className="modalOverlay1">
+          <div className="modalContent1">
             <h2 className="modalTitle">Medication Details</h2>
 
             {selectedMedications.map((med, index) => {
@@ -206,7 +206,7 @@ const CalendarMedications = () => {
               );
             })}
 
-            <button className="closeButton" onClick={closeModal}>
+            <button className="closeButton1" onClick={closeModal}>
               Close
             </button>
           </div>

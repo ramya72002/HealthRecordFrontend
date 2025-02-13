@@ -81,6 +81,25 @@
     border-radius: 8px;
     overflow: hidden;
     border: 2px solid #e2e8f0;
+    position: relative;
+    display: inline-block;
+
+    .image-remove-btn {
+      position: absolute;
+      top: 5px;
+      right: 5px;
+      background: rgb(255, 255, 255);
+      color: rgb(255, 0, 0);
+      border: none;
+      border-radius: 50%;
+      width: 20px;
+      height: 20px;
+      font-size: 14px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
   }
 
   .image-preview {

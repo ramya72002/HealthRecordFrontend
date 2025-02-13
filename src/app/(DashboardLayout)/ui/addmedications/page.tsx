@@ -125,7 +125,19 @@ const Medications: React.FC = () => {
     setFrequency(selectedFrequency);
     setModalVisible(false);
   };
-
+  const handleIncreaseDosage = (index: number) => {
+    const updatedSchedule = [...schedule];
+    updatedSchedule[index].dosage = (parseFloat(updatedSchedule[index].dosage) + 1).toFixed(1);
+    setSchedule(updatedSchedule);
+  };
+  
+  const handleDecreaseDosage = (index: number) => {
+    const updatedSchedule = [...schedule];
+    const newDosage = parseFloat(updatedSchedule[index].dosage) - 1;
+    updatedSchedule[index].dosage = newDosage > 0 ? newDosage.toFixed(1) : "0.0";
+    setSchedule(updatedSchedule);
+  };
+  
   const handleSelectDate = (day: number) => {
     setSelectedDates((prevDates) =>
       prevDates.includes(day) ? prevDates.filter((date) => date !== day) : [...prevDates, day]
@@ -266,28 +278,30 @@ const Medications: React.FC = () => {
               </tr>
             </thead>
             <tbody>
-              {schedule.map((entry, index) => (
-                <tr key={index}>
-                  <td>
-                    <input
-                      type="time"
-                      value={entry.time}
-                      onChange={(e) => handleTimeChange(index, e.target.value)}
-                      className="time-input"
-                    />
-                  </td>
-                  <td>{entry.dosage}</td>
-                  <td>
-                    <button
-                      className="delete-button"
-                      onClick={() => handleDeleteRow(index)}
-                    >
-                      Delete
-                    </button>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
+  {schedule.map((entry, index) => (
+    <tr key={index}>
+      <td>
+        <input
+          type="time"
+          value={entry.time}
+          onChange={(e) => handleTimeChange(index, e.target.value)}
+          className="time-input"
+        />
+      </td>
+      <td>
+        <button onClick={() => handleDecreaseDosage(index)} className="dosage-button">-</button>
+        {entry.dosage}
+        <button onClick={() => handleIncreaseDosage(index)} className="dosage-button">+</button>
+      </td>
+      <td>
+        <button className="delete-button" onClick={() => handleDeleteRow(index)}>
+          Delete
+        </button>
+      </td>
+    </tr>
+  ))}
+</tbody>
+
           </table>
         </div>
 

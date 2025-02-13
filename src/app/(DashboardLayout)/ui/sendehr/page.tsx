@@ -11,6 +11,11 @@ const AddUserID = () => {
   const [images, setImages] = useState<File[]>([]);
   const [isLoading, setIsLoading] = useState(false);
 
+  const handleRemoveImage = (index: number) => {
+    setImages((prevImages) => prevImages.filter((_, i) => i !== index));
+  };
+  
+
   const handleSubmit = async () => {
     if (!userID) {
       alert("Please enter a user ID.");
@@ -65,10 +70,10 @@ const AddUserID = () => {
   };
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files) {
-      setImages(Array.from(e.target.files));
-    }
+    if (!e.target.files) return; // Ensure files are present
+    setImages((prevImages) => [...prevImages, ...Array.from(e.target.files as FileList)]);
   };
+  
 
   return (
     <div className="add-user-container">
@@ -96,18 +101,26 @@ const AddUserID = () => {
           </label>
         </div>
         <div className="image-preview-container">
-          {images.map((image, index) => (
-            <div key={index} className="image-preview-wrapper">
-              <Image
-                src={URL.createObjectURL(image)}
-                alt={`Preview ${index + 1}`}
-                width={100}
-                height={100}
-                className="image-preview"
-              />
-            </div>
-          ))}
-        </div>
+  {images.map((image, index) => (
+    <div key={index} className="image-preview-wrapper">
+      <button
+        className="image-remove-btn"
+        onClick={() => handleRemoveImage(index)}
+        aria-label={`Remove Image ${index + 1}`}
+      >
+        ✖
+      </button>
+      <Image
+        src={URL.createObjectURL(image)}
+        alt={`Preview ${index + 1}`}
+        width={100}
+        height={100}
+        className="image-preview"
+      />
+    </div>
+  ))}
+</div>
+
         <button
           className="button"
           onClick={handleSubmit}

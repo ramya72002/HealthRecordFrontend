@@ -242,7 +242,7 @@ const DisplayRecords: React.FC = () => {
           className="searchBox"
         />
         <button onClick={() => setSortMenuVisible(!sortMenuVisible)} className="sortButton">
-          Sort ⋮
+          Sort
         </button>
         {sortMenuVisible && (
           <div className="sortMenu">

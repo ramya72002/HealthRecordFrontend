@@ -55,7 +55,7 @@ const Profile = () => {
           <Icon icon="solar:checklist-linear" height={20} />
          Health Records
         </Dropdown.Item>
-        <div className="p-3 pt-0">
+        <div className="p-3 pt-0 flex justify-center">
           <Button
             size="sm"
             onClick={handleLogout} // Use onClick instead of as={Link}

@@ -216,3 +216,17 @@
     background-color: #005bb5;
   }
 }
+.dosage-button {
+  margin: 0 5px;
+  padding:7px;
+  background-color: #3942c5;
+  color: white;
+  border: none;
+  cursor: pointer;
+  font-size: 15px;
+  border-radius: 5px;
+}
+
+.dosage-button:hover {
+  background-color: #064bb3;
+}
