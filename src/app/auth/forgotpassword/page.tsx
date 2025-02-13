@@ -1,10 +1,11 @@
 'use client'
-import React, { useState } from 'react';
+import React, { useState, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import "./forgotpassword.scss";
-const ResetPassword = () => {
+
+const ResetPasswordContent = () => {
     const router = useRouter();
     const searchParams = useSearchParams();
     const token = searchParams.get('token');
@@ -13,7 +14,7 @@ const ResetPassword = () => {
     const [confirmNewPassword, setConfirmNewPassword] = useState('');
     const [error, setError] = useState('');
 
-    const handleSubmit = async (e: any) => {
+    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
 
         // Basic validation
@@ -35,7 +36,7 @@ const ResetPassword = () => {
         try {
             const response = await axios.post('https://health-project-backend-url.vercel.app/reset-password', {
                 token,
-                "new_password":newPassword,
+                "new_password": newPassword,
             });
 
             if (response.status === 200) {
@@ -82,6 +83,15 @@ const ResetPassword = () => {
                 </form>
             </div>
         </div>
+    );
+};
+
+// Wrap in Suspense to prevent CSR bailout issue
+const ResetPassword = () => {
+    return (
+        <Suspense fallback={<div>Loading...</div>}>
+            <ResetPasswordContent />
+        </Suspense>
     );
 };
 
