@@ -19,13 +19,22 @@ export default function RootLayout({
 
   useEffect(() => {
     const userDetails = localStorage.getItem('userDetails');
+
+    // If user is not logged in, redirect to login page (only if they are on a protected route)
     if (!userDetails && pathname === "/") {
       router.push("/auth/login");
     }
-    else{
+
+    // If user is logged in, prevent redirecting to /dashboard from authentication pages
+    if (userDetails && pathname.startsWith("/auth")) {
+      return; // Do nothing, let them stay
+    }
+
+    // Redirect authenticated users to dashboard only if they are on the home page "/"
+    if (userDetails && pathname === "/") {
       router.push("/dashboard");
     }
-  }, []); // Dependency added to monitor path changes
+  }, [pathname]); // Dependency added to monitor path changes
 
   return (
     <html lang="en">
